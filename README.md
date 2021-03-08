@@ -6,5 +6,5 @@
 - Jan Malek
 - Damian Raczkowski
 - Jakub Derda
-- Zuzanna Jaksińska
+- Zuzanna Jasińska
 ## Problematyka projektu
