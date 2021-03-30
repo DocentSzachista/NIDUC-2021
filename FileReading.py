@@ -4,7 +4,6 @@ class FileReader:
     binaries=[]
     file=0
     reading_mode=0
-    zone
     def __init__(self):
         pass
     #Otwieranie pliku do odczytu

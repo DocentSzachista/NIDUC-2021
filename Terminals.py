@@ -1,3 +1,5 @@
+from FileReading import FileReader
+
 #Klasa odpowiadajaca za przesyłanie danych za pomoca roznych metod ARQ
 class Terminal:
     connected_terminal = 0 #Referencja do terminala do którego mamy wysyłać inforamację
@@ -16,4 +18,6 @@ class Terminal:
 
     #Otrzymanie wiadomości przez ten terminal
     def recieve_message(self, message):
-        print(self.name + ": " + message) #Do debugowania 
+        reader = FileReader()
+        reader.open_file("bee2.png", "wb")
+        reader.write_whole(message)
