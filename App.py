@@ -1,5 +1,8 @@
+#Punkt wejścia do programu
+
 from Terminals import Terminal
 
+#Testowa komunikacja
 terminal1 = Terminal("Terminal1")
 terminal2 = Terminal("Terminal2")
 
