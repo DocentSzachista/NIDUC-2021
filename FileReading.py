@@ -1,13 +1,15 @@
 
 class FileReader:
     #Konstruktor
-    def __init__(self, filename):
-        self.filename=filename
-        self.binaries=[]
-
+    binaries=[]
+    file=0
+    reading_mode=0
+    def __init__(self):
+        pass
     #Otwieranie pliku do odczytu
-    def open_file(self):
-        self.file=open(self.filename, "rb")
+    def open_file(self, filename, reading_mode):
+        self.reading_mode=reading_mode
+        self.file=open(filename, self.reading_mode)
 
     #zamykanie pliku
     def close_file(self):
@@ -25,23 +27,24 @@ class FileReader:
     
     #Zapisywanie fragmentow do listy, wykorzystuje reach_chunk'a
     def read_and_safe_to_list(self, chunk=1024):
-     
-        for piece in files.read_chunk(chunk):
-            self.binaries.append(piece)
-
+        if self.reading_mode == "rb":
+            for piece in files.read_chunk(chunk):
+                self.binaries.append(piece)
+        else:
+            print("ZLy modyfikator do odczytu")
     #wpisywanie do pliku 
-    def write_to_file(self, filename):
-        self.file=open(filename, "wb")
-        for chunk in self.binaries:
-            self.file.write(chunk)
+    def write_to_file(self):
+        if self.reading_mode == "wb":
+            for chunk in self.binaries:
+                self.file.write(chunk)
+        else:
+            print("ZLy modyfikator do odczytu")
 
 #Wykonywanie programu By zobaczyc ze dziala :D 
 
-files=FileReader("bee.png")
-files.open_file()
+files=FileReader()
+files.open_file("bee.png", "rb")
 files.read_and_safe_to_list(2048)
 files.close_file()
-files.write_to_file("bee2.jpg")
-
-
-
+files.open_file("bee2.png", "wb")
+files.write_to_file()
