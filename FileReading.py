@@ -44,7 +44,8 @@ class FileReader:
     def read_whole(self)->str:
         dane = self.file.read()
         return dane
-
+    def write_whole(self, message):
+        self.file.write(message)
 #Wykonywanie programu By zobaczyc ze dziala :D 
 
 files=FileReader()
