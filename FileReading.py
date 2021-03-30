@@ -4,6 +4,7 @@ class FileReader:
     binaries=[]
     file=0
     reading_mode=0
+    zone
     def __init__(self):
         pass
     #Otwieranie pliku do odczytu
@@ -15,7 +16,6 @@ class FileReader:
     def close_file(self):
         self.file.close()       
     #czytanie fragmentu pliku    
-    
     def read_chunk(self, chunksize ):
         
         while True:
@@ -32,6 +32,7 @@ class FileReader:
                 self.binaries.append(piece)
         else:
             print("ZLy modyfikator do odczytu")
+
     #wpisywanie do pliku 
     def write_to_file(self):
         if self.reading_mode == "wb":
@@ -39,6 +40,10 @@ class FileReader:
                 self.file.write(chunk)
         else:
             print("ZLy modyfikator do odczytu")
+    
+    def read_whole(self)->str:
+        dane = self.file.read()
+        return dane
 
 #Wykonywanie programu By zobaczyc ze dziala :D 
 
