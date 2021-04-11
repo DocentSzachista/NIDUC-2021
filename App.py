@@ -7,6 +7,7 @@ from FileReading import FileReader
 terminal1 = Terminal("Terminal1")
 terminal2 = Terminal("Terminal2")
 
+#Komentarz do próbnego commita
 terminal1.bind(terminal2)
 terminal2.bind(terminal1)
 
