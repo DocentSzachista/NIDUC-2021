@@ -16,3 +16,7 @@ class Container1:
 
      def container_get(self, index):
          return self.container[index]
+
+     def container_length(self):
+         return len(self.container)
+
