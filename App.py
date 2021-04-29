@@ -1,5 +1,5 @@
 #Punkt wejścia do programu
-
+from Packet1 import Packet1
 from Terminals import Terminal
 from FileReading import FileReader
 
@@ -13,4 +13,5 @@ terminal2.bind(terminal1)
 
 reader = FileReader()
 reader.open_file("bee.png", "rb")
-terminal1.send_message(reader.read_whole())
+packet = Packet1(0, reader.read_whole())
+terminal1.send_message(packet)

@@ -1,5 +1,6 @@
 from FileReading import FileReader
-
+from Container1  import Container1
+from Packet1 import Packet1
 #Klasa odpowiadajaca za przesyłanie danych za pomoca roznych metod ARQ
 class Terminal:
     connected_terminal = 0 #Referencja do terminala do którego mamy wysyłać inforamację
@@ -7,17 +8,20 @@ class Terminal:
 
     def __init__(self, name):
         self.name = name
-
+        self.container= Container1()
     #Ustawienie docelowego terminala do komunikacji
     def bind(self, other_terminal):
         self.connected_terminal = other_terminal
 
     #Wysłanie wiadomość do docelowego terminala
     def send_message(self, message):
+        self.container.push(message)
         self.connected_terminal.recieve_message(message)
-
+        
     #Otrzymanie wiadomości przez ten terminal
     def recieve_message(self, message):
+        self.container.push(message)
         reader = FileReader()
         reader.open_file("bee2.png", "wb")
-        reader.write_whole(message)
+        print(message.get_value())
+        reader.write_whole(message.get_value())
