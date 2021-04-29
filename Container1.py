@@ -30,5 +30,8 @@ class Container1:
          return len(self.container)
 
      def get_beginning(self):
-         return self.container.pop(0)
+         if len(self.container) > 0:
+            return self.container.pop(0)
+         else:
+            return None
 
