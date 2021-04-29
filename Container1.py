@@ -5,27 +5,27 @@ class Container1:
          """Lista przechowująca obiekty - pakiety"""
          self.container = []
 
-     def container_push(self, Packet1):
+     def push(self, Packet1):
          self.container.append(Packet1)
 
-     def container_insert(self, Packet1, index):
+     def insert(self, Packet1, index):
          if index < len(self.container):
              self.container.insert(Packet1, index)
          else:
              return None
 
-     def container_pop(self):
+     def pop(self):
          if len(self.container) > 0:
              return self.container.pop()
          else:
              return None
 
-     def container_get(self, index):
+     def get(self, index):
          if index < len(self.container):
             return self.container[index]
          else:
-            return None
+            return  None
 
-     def container_length(self):
+     def length(self):
          return len(self.container)
 
