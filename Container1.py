@@ -29,3 +29,6 @@ class Container1:
      def length(self):
          return len(self.container)
 
+     def get_beginning(self):
+         return self.container.pop(0)
+
