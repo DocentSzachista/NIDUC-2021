@@ -1,4 +1,4 @@
-
+# refactor file wrtiting 
 class FileReader:
     #Konstruktor
     binaries=[]
