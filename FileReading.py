@@ -1,8 +1,6 @@
 import textwrap
 
 # refactor file wrtiting
-
-
 class FileReader:
     #Metoda odczytująca plik i zamieniająca go na listę słów o długości word_size w bajtach
     def read_file(file_name, word_size):
