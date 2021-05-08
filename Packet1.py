@@ -12,10 +12,10 @@ class Packet1:
 
     def add_bit(self, bit):
         if bit == '1' or bit == '0':
-            self.value.append(bit)
+            self.value += bit
 
-    def clear_key(self):
-        self.key.clear()
+    def clear_value(self):
+        self.value = ''
 
     # Settery i gettery do enkapsulacji danych
     def get_key(self):
