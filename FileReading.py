@@ -1,47 +1,40 @@
-# refactor file wrtiting 
+import textwrap
+
+# refactor file wrtiting
+
+
 class FileReader:
-    #Konstruktor
-    binaries=[]
-    file=0
-    reading_mode=0
-    def __init__(self):
-        pass
-    #Otwieranie pliku do odczytu
-    def open_file(self, filename, reading_mode):
-        self.reading_mode=reading_mode
-        self.file=open(filename, self.reading_mode)
+    #Metoda odczytująca plik i zamieniająca go na listę słów o długości word_size w bajtach
+    def read_file(file_name, word_size):
+        with open(file_name, "rb") as file:
+            # Wczytanie pliku i zamiana go na tablice bajtów
+            ba = bytearray(file.read())
+            bytes_list = []
+            for b in ba:
+                # Zamiana przeczytanych wartości na binarne ośmio cyfrowe wartości
+                bytes_list.append(bin(b)[2:].zfill(8))
 
-    #zamykanie pliku
-    def close_file(self):
-        self.file.close()       
-    #czytanie fragmentu pliku    
-    def read_chunk(self, chunksize=1024 ):
-        
-        while True:
-            file_part= self.file.read(chunksize) 
-            #jezeli plik sie konczy  to wyjdz inaczej przekaz fragment pliku
-            if not file_part:
-                break
-            yield file_part
-    
-    #Zapisywanie fragmentow do listy, wykorzystuje reach_chunk'a
-    def read_and_safe_to_list(self, chunk=1024):
-        if self.reading_mode == "rb":
-            for piece in files.read_chunk(chunk):
-                self.binaries.append(piece)
-        else:
-            print("ZLy modyfikator do odczytu")
+            return_list = []
+            for i in range(len(bytes_list)):
+                if i % word_size == 0:
+                    # Łączenie bajtów w słowa o zadanej długości
+                    return_list.append(''.join(bytes_list[i:(i + word_size)]))
 
-    #wpisywanie do pliku 
-    def write_to_file(self, message):
-        if self.reading_mode == "wb":
-            self.file.write(message)
-        else:
-            print("ZLy modyfikator do odczytu")
-    
-    def read_whole(self)->str:
-        dane = self.file.read()
-        return dane
-        
-    def write_whole(self, message):
-        self.file.write(message)
+            return return_list
+
+    #Metoda odtwarzająca plik na podstawie listy słów
+    #W liście długość jednego ciągu znaków MUSI być wielokrotnością liczby 8
+    def create_file(file_content_list, file_name):
+        with open(file_name, "wb") as file:
+            bytes_list = []
+            for word in file_content_list:
+                parts = textwrap.wrap(word, 8)  # Przetworzenie słów na bajty
+                bytes_list.extend(parts)
+
+            values = []
+            for b in bytes_list:
+                # Zamiana binarnie zapisanych bajtów na liczby
+                values.append(int(b, 2))
+
+            ba = bytearray(values)
+            file.write(ba)  # Zapisanie tych liczb do pliku
