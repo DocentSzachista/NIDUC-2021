@@ -1,5 +1,6 @@
 class Packet1:
-    def __init__(self, key, value):
+
+    def __init__(self, key = 0, value = ''):
         """Pole przechowujące klucz pakietu"""
         self.key = key
         """Pole przechowujące wartość do wysłania"""
@@ -12,6 +13,12 @@ class Packet1:
         string += bin(self.key)[2:].zfill(8)
         string += self.value
         return string
+
+    def convert_to_packet(self, binary):
+        str1 = binary[0:8]
+        self.key = int(str1, 2)
+        str2 = binary[8:16]
+        self.value = str2
 
     def to_string(self):
         return f"Key: {self.key}, value: {self.value}"
