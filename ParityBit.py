@@ -13,3 +13,26 @@ class ParityBit:
             value.append('1')
 
         return value
+
+    @staticmethod
+    def check_parity(value):
+        """Zwraca True jeśli prawidłowo"""
+        len_val = len(value)
+        parity_bit = value[len_val-1]
+        numb_1 = 0
+        for i in range(len_val):
+            if value[i] == '1':
+                numb_1 += 1
+
+        residue = numb_1 % 2
+
+        if parity_bit == '1' and residue == 1:
+            return True
+        elif parity_bit == '1' and residue == 0:
+            return False
+        elif parity_bit == '0' and residue == 1:
+            return False
+        elif parity_bit == '0' and residue == 0:
+            return True
+        else:
+            return False

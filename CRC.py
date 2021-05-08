@@ -5,7 +5,7 @@ class CRC:
     def xor(arg1, arg2):
         # tablica na rezultat
         result = []
-        for i in range(1, len(arg2)):
+        for i in range(len(arg2)):
             if arg1[i] == arg2[i]:
                 result.append('0')
             else:
@@ -15,6 +15,7 @@ class CRC:
 
     @staticmethod
     def mod2division(divident, divisor):
+        # Liczba bitów, które podlegają XOR (długość dzielnika)
         pick = len(divisor)
 
         tmp = divident[0:pick]
