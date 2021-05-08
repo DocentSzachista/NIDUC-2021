@@ -7,6 +7,12 @@ class Packet1:
         """Informacja o potrzebie retransmisji"""
         self.retransmission = False
 
+    def convert_to_bin(self):
+        string = ''
+        string += bin(self.key)[2:].zfill(8)
+        string += self.value
+        return string
+
     def to_string(self):
         return f"Key: {self.key}, value: {self.value}"
 
