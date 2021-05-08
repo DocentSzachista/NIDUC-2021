@@ -8,19 +8,21 @@ class ParityBit:
             if value[i] == '1':
                 number_of_1 += 1
         if number_of_1 % 2 == 0:
-            value.append('0')
+            value += '0'
         else:
-            value.append('1')
+            value += '1'
 
         return value
 
     @staticmethod
     def check_parity(value):
+        if type(value) != str:
+            return False
         """Zwraca True jeśli prawidłowo"""
         len_val = len(value)
-        parity_bit = value[len_val-1]
+        parity_bit = value[-1]
         numb_1 = 0
-        for i in range(len_val):
+        for i in range(len_val-1):
             if value[i] == '1':
                 numb_1 += 1
 
