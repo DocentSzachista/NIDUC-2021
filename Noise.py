@@ -9,6 +9,7 @@ class Noise:
             return '1'
 
     #Proste zaszumianie sygnału za pomocą testowania prawdopodobieństwa dla każdej wielkości po kolei
+    @staticmethod
     def simple_noise(data, switch_probability):
         data_list = list(data)
         for i, c in enumerate(data_list):
@@ -17,6 +18,7 @@ class Noise:
         return ''.join(data_list)
 
     #Zaszumianie bez przechodzenia przez wszystkie bity
+    @staticmethod
     def performant_noise(data, switch_probability):
         data_list = list(data)
         length = len(data_list)

@@ -3,6 +3,7 @@ import textwrap
 # refactor file wrtiting
 class FileReader:
     #Metoda odczytująca plik i zamieniająca go na listę słów o długości word_size w bajtach
+    @staticmethod
     def read_file( file_name, word_size):
         with open(file_name, "rb") as file:
             # Wczytanie pliku i zamiana go na tablice bajtów
@@ -22,6 +23,7 @@ class FileReader:
 
     #Metoda odtwarzająca plik na podstawie listy słów
     #W liście długość jednego ciągu znaków MUSI być wielokrotnością liczby 8
+    @staticmethod
     def create_file( file_content_list, file_name):
         with open(file_name, "wb") as file:
             bytes_list = []
