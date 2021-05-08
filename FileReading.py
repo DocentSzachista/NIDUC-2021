@@ -15,7 +15,7 @@ class FileReader:
     def close_file(self):
         self.file.close()       
     #czytanie fragmentu pliku    
-    def read_chunk(self, chunksize ):
+    def read_chunk(self, chunksize=1024 ):
         
         while True:
             file_part= self.file.read(chunksize) 
@@ -33,10 +33,9 @@ class FileReader:
             print("ZLy modyfikator do odczytu")
 
     #wpisywanie do pliku 
-    def write_to_file(self):
+    def write_to_file(self, message):
         if self.reading_mode == "wb":
-            for chunk in self.binaries:
-                self.file.write(chunk)
+            self.file.write(message)
         else:
             print("ZLy modyfikator do odczytu")
     
@@ -46,11 +45,3 @@ class FileReader:
         
     def write_whole(self, message):
         self.file.write(message)
-#Wykonywanie programu By zobaczyc ze dziala :D 
-
-files=FileReader()
-files.open_file("bee.png", "rb")
-files.read_and_safe_to_list(2048)
-files.close_file()
-files.open_file("bee2.png", "wb")
-files.write_to_file()
