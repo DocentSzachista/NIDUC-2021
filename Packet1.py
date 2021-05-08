@@ -11,7 +11,7 @@ class Packet1:
         return f"Key: {self.key}, value: {self.value}"
 
     def add_bit(self, bit):
-        if bit == 1 or bit == 0:
+        if bit == '1' or bit == '0':
             self.value.append(bit)
 
     def clear_key(self):
@@ -34,5 +34,5 @@ class Packet1:
         return self.retransmission
 
     def set_retransmission(self, ret):
-        if ret == True or ret == False:
+        if ret is True or ret is False:
             self.retransmission = ret
