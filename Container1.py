@@ -1,12 +1,15 @@
-from Packet1 import Packet1
-
+from Packet1         import Packet1
+from TerminalOptions import TerminalOptions
+from EncodingOptions import EncodingOptions
+from NoiseOptions    import NoiseOptions
 class Container1:
      def __init__(self):
          """Lista przechowująca obiekty - pakiety"""
          self.container = []
 
-     def push(self, Packet1):
-         self.container.append(Packet1)
+     def push(self, Packet1, encoding_option):
+      
+        self.container.append(Packet1)
 
      def insert(self, Packet1, index):
          if index < len(self.container):

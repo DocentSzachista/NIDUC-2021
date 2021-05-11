@@ -1,4 +1,5 @@
 class CRC:
+    
 
     # Metoda pełniąca rolę logicznego XOR
     @staticmethod

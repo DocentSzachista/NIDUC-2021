@@ -1,23 +1,40 @@
+
+from EncodingOptions import EncodingOptions
+from ParityBit import ParityBit
+from CRC import CRC
 class Packet1:
 
-    def __init__(self, key = 0, value = ''):
+    def __init__(self, key = 0, value = '', encoding_option='' ):
         """Pole przechowujące klucz pakietu"""
         self.key = key
         """Pole przechowujące wartość do wysłania"""
         self.value = value
-        """Informacja o potrzebie retransmisji"""
-        self.retransmission = False
+        """dlugosc pakietu"""
+        self.length = len(value)
+        """opcja kodowania"""
+        self.encoding_option = encoding_option
 
     def convert_to_bin(self):
         string = ''
         string += bin(self.key)[2:].zfill(8)
         string += self.value
+
+    # Warunki do kodowania pakietu
+        if self.encoding_option is EncodingOptions.parity_bit:
+            print("parity")
+            string = ParityBit.add_parity_bit(string)
+        elif self.encoding_option is EncodingOptions.CRC:
+            print("CRC")
+            string = CRC.encode_data(string, )
+        elif self.encoding_option is EncodingOptions.hamming:
+            print("hamming")
         return string
 
     def convert_to_packet(self, binary):
         str1 = binary[0:8]
         self.key = int(str1, 2)
-        str2 = binary[8:16]
+        str2 = binary[8:self.length]
+        
         self.value = str2
 
     def to_string(self):
@@ -43,9 +60,4 @@ class Packet1:
     def set_value(self, value):
         self.value = value
 
-    def get_retransmission(self):
-        return self.retransmission
-
-    def set_retransmission(self, ret):
-        if ret is True or ret is False:
-            self.retransmission = ret
+    
