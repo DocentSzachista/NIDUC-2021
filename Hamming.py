@@ -72,16 +72,16 @@ data = '1011001'
 print("Dane:    " + data)
 
 data_length = len(data)
-num_of_r_bits = hamming.numOfRedundantBits(data_length)
+num_of_r_bits = Hamming.numOfRedundantBits(data_length)
 
-arr = hamming.posRedundantBits(data, num_of_r_bits)
-arr = hamming.calcParityBits(arr, num_of_r_bits)
+arr = Hamming.posRedundantBits(data, num_of_r_bits)
+arr = Hamming.calcParityBits(arr, num_of_r_bits)
 
 print("Dane zakodowane: " + arr)  
 
 # Symulacja błędu na 10 pozycji
 arr = '11101001110'
 print("Błedne dane:     "+ arr)
-correction = hamming.detectError(arr, num_of_r_bits)
+correction = Hamming.detectError(arr, num_of_r_bits)
 print("Pozycja błędu:   " + str(correction))
 ##################################################

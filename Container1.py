@@ -7,7 +7,7 @@ class Container1:
          """Lista przechowująca obiekty - pakiety"""
          self.container = []
 
-     def push(self, Packet1, encoding_option):
+     def push(self, Packet1):
       
         self.container.append(Packet1)
 

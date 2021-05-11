@@ -2,6 +2,7 @@
 from EncodingOptions import EncodingOptions
 from ParityBit import ParityBit
 from CRC import CRC
+from Hamming import Hamming
 class Packet1:
 
     def __init__(self, key = 0, value = '', encoding_option='' ):
@@ -25,9 +26,12 @@ class Packet1:
             string = ParityBit.add_parity_bit(string)
         elif self.encoding_option is EncodingOptions.CRC:
             print("CRC")
-            string = CRC.encode_data(string, )
+            string = CRC.encode_data(string)
         elif self.encoding_option is EncodingOptions.hamming:
             print("hamming")
+            num_of_r_bits = Hamming.numOfRedundantBits(len(string))
+            arr = Hamming.posRedundantBits(string, num_of_r_bits)
+            string = Hamming.calcParityBits(arr, num_of_r_bits)
         return string
 
     def convert_to_packet(self, binary):

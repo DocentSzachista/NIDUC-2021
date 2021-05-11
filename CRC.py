@@ -1,6 +1,6 @@
 class CRC:
     
-
+    static_divisor = '101'
     # Metoda pełniąca rolę logicznego XOR
     @staticmethod
     def xor(arg1, arg2):
@@ -37,19 +37,19 @@ class CRC:
         return checkword
 
     @staticmethod
-    def encode_data(data, key):
-        l_key = len(key)
+    def encode_data(data):
+        l_key = len(CRC.static_divisor )
 
         appended_data = data + '0'*(l_key-1)
-        remainder = CRC.mod2division(appended_data, key)
+        remainder = CRC.mod2division(appended_data, CRC.static_divisor )
 
         coded_word = data + remainder
         return coded_word
 
     @staticmethod
-    def decode_data(data, key):
-        l_key = len(key)
+    def decode_data(data):
+        l_key = len(CRC.static_divisor )
         appended_data = data + '0'*(l_key-1)
-        remainder = CRC.mod2division(appended_data, key)
+        remainder = CRC.mod2division(appended_data, CRC.static_divisor )
 
         return remainder

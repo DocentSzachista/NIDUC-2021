@@ -14,14 +14,14 @@ class Terminal:
         self.encoding_option = encoding_option
         self.noise_option = noise_option
         self.frame_size = frame_size
-
+        self.byte_list = []
     #Ustawienie docelowego terminala do komunikacji
     def bind(self, other_terminal):
         self.connected_terminal = other_terminal
 
     #Wysłanie wiadomość do docelowego terminala
-    def send_message(self, file_name, arq_mode, control_mode):
-        self.create_packages( file_name )
+    def send_message(self, file_name):
+        self.create_packages( file_name)
         if self.terminal_option is TerminalOptions.stop_and_wait:
                 for i in range(self.container.length()):
                     self.connected_terminal.receive_packages(self.container.pop(), False)
@@ -41,11 +41,11 @@ class Terminal:
             FileReader.create_file(self.byte_list, "bee2.png")
     
     # Metoda do stworzenia pakietow 
-    def create_packages( self, file_name, encoding_option ):
+    def create_packages( self, file_name):
       
         self.byte_list= FileReader.read_file(file_name,1024)
         for i in range(len(self.byte_list)):
-              self.container.push(Packet1(i, self.byte_list[i], encoding_option ))  
+              self.container.push(Packet1(i, self.byte_list[i], self.encoding_option ))  
     
 
             
