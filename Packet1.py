@@ -37,9 +37,9 @@ class Packet1:
     def convert_to_packet(self, binary):
         str1 = binary[0:8]
         self.key = int(str1, 2)
-        str2 = binary[8:self.length]
-        
+        str2 = binary[8:-1]
         self.value = str2
+
 
     def to_string(self):
         return f"Key: {self.key}, value: {self.value}"

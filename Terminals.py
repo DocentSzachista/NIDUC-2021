@@ -24,7 +24,7 @@ class Terminal:
         self.create_packages( file_name)
         if self.terminal_option is TerminalOptions.stop_and_wait:
                 for i in range(self.container.length()):
-                    self.connected_terminal.receive_packages(self.container.pop(), False)
+                    self.connected_terminal.receive_packages(self.container.pop().convert_to_bin(), False)
                 self.connected_terminal.receive_packages(None, True)
         elif self.terminal_option is TerminalOptions.go_back_N:
             print("go back N")
@@ -34,7 +34,9 @@ class Terminal:
     #Metoda do zaczytywania pakietow i tworzenia pliku
     def receive_packages(self, message, is_end):
         if is_end is False:
-            self.container.push(message)
+            packet = Packet1()
+            packet.convert_to_packet(message)
+            self.container.push(packet)
         else:
             for i in range(self.container.length()):
                 self.byte_list.append(self.container.pop().get_value())    
