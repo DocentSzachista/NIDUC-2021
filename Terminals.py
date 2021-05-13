@@ -7,7 +7,7 @@ from NoiseOptions   import NoiseOptions
 #Klasa odpowiadajaca za przesyłanie danych za pomoca roznych metod ARQ
 class Terminal:
    
-    def __init__(self, name, terminal_option, encoding_option, noise_option, frame_size):
+    def __init__(self, name, terminal_option, encoding_option, noise_option, frame_size, is_sender):
         self.name = name
         self.container= Container1()
         self.terminal_option = terminal_option
@@ -15,6 +15,7 @@ class Terminal:
         self.noise_option = noise_option
         self.frame_size = frame_size
         self.byte_list = []
+        self.is_sender = is_sender
     #Ustawienie docelowego terminala do komunikacji
     def bind(self, other_terminal):
         self.connected_terminal = other_terminal
@@ -32,15 +33,13 @@ class Terminal:
             print("selective repeat")
 
     #Metoda do zaczytywania pakietow i tworzenia pliku
-    def receive_packages(self, message, is_end):
-        if is_end is False:
-            packet = Packet1()
-            packet.convert_to_packet(message)
-            self.container.push(packet)
+    def receive_packages(self, message):
+        if self.is_sender is True:
+            self.sender_receive( message)
         else:
-            for i in range(self.container.length()):
-                self.byte_list.append(self.container.pop().get_value())    
-            FileReader.create_file(self.byte_list, "bee2.png")
+            self.receiver_receive(message)
+
+      
     
     # Metoda do stworzenia pakietow 
     def create_packages( self, file_name):
@@ -51,6 +50,16 @@ class Terminal:
               self.container.push(Packet1(i, self.byte_list[i] ))  
     
 
-            
+    def sender_receive(self, message ):       
 
-        
+        pass 
+    def receiver_receive(self, message ):
+        if is_end is False:
+            packet = Packet1()
+            
+            packet.convert_to_packet(message)
+            self.container.push(packet)
+        else:
+            for i in range(self.container.length()):
+                self.byte_list.append(self.container.pop().get_value())    
+            FileReader.create_file(self.byte_list, "bee2.png")
