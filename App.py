@@ -1,10 +1,12 @@
 #Punkt wejścia do programu
-from Terminals   import Terminal
-from Container1  import Container1
-import time
+from Terminals       import Terminal
+from Container1      import Container1
 from TerminalOptions import TerminalOptions
 from EncodingOptions import EncodingOptions
 from NoiseOptions    import NoiseOptions
+
+import time
+
 # definicja ARQ stop_and wait w przesylaniu (naiwna implementacja bo dzialamy w obrebie aplikacji)
 def stop_and_wait(terminal, packet ):
     while(True):

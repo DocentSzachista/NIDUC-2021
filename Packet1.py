@@ -4,16 +4,18 @@ from ParityBit import ParityBit
 from CRC import CRC
 from Hamming import Hamming
 class Packet1:
-
-    def __init__(self, key = 0, value = '', encoding_option='' ):
+    """opcja kodowania"""
+    encoding_option = 0
+    """dlugosc pakietu"""
+    data_length = 0
+    def __init__(self, key = 0, value = '', ):
         """Pole przechowujące klucz pakietu"""
         self.key = key
         """Pole przechowujące wartość do wysłania"""
         self.value = value
-        """dlugosc pakietu"""
-        self.length = len(value)
-        """opcja kodowania"""
-        self.encoding_option = encoding_option
+       
+        
+        
 
     def convert_to_bin(self):
         string = ''
@@ -21,25 +23,34 @@ class Packet1:
         string += self.value
 
     # Warunki do kodowania pakietu
-        if self.encoding_option is EncodingOptions.parity_bit:
+        if Packet1.encoding_option is EncodingOptions.parity_bit:
             print("parity")
             string = ParityBit.add_parity_bit(string)
-        elif self.encoding_option is EncodingOptions.CRC:
+        elif Packet1.encoding_option is EncodingOptions.CRC:
             print("CRC")
             string = CRC.encode_data(string)
-        elif self.encoding_option is EncodingOptions.hamming:
+        elif Packet1.encoding_option is EncodingOptions.hamming:
             print("hamming")
             num_of_r_bits = Hamming.numOfRedundantBits(len(string))
             arr = Hamming.posRedundantBits(string, num_of_r_bits)
             string = Hamming.calcParityBits(arr, num_of_r_bits)
         return string
 
+
+    # co potrzeba - dlugosc danych , jak sobie sume kontrolna policzyc (sposob)
     def convert_to_packet(self, binary):
         str1 = binary[0:8]
         self.key = int(str1, 2)
-        str2 = binary[8:-1]
+        # *8 bo rozmiar to bajty +8 bo offset na klucz
+        str2 = binary[8:Packet1.data_length*8+8]
         self.value = str2
-
+        if Packet1.encoding_option is EncodingOptions.parity_bit:
+            return  ParityBit.check_parity(binary) 
+        elif Packet1.encoding_option is EncodingOptions.CRC:
+            print("CRC")    
+            
+        elif Packet1.encoding_option is EncodingOptions.hamming:
+            print("Hamming")
 
     def to_string(self):
         return f"Key: {self.key}, value: {self.value}"

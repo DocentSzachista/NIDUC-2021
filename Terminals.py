@@ -44,10 +44,11 @@ class Terminal:
     
     # Metoda do stworzenia pakietow 
     def create_packages( self, file_name):
-      
-        self.byte_list= FileReader.read_file(file_name,1024)
+        Packet1.encoding_option = self.encoding_option
+        Packet1.data_length = self.frame_size
+        self.byte_list= FileReader.read_file(file_name, self.frame_size)
         for i in range(len(self.byte_list)):
-              self.container.push(Packet1(i, self.byte_list[i], self.encoding_option ))  
+              self.container.push(Packet1(i, self.byte_list[i] ))  
     
 
             
