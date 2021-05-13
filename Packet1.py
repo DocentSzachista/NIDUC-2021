@@ -54,6 +54,11 @@ class Packet1:
         elif Packet1.encoding_option is EncodingOptions.hamming:
             print("Hamming")
 
+    def is_last(self):
+            return self.key == 5
+        
+
+
     def to_string(self):
         return f"Key: {self.key}, value: {self.value}"
 

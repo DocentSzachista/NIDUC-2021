@@ -54,3 +54,15 @@ class Packet2:
 
     def get_value(self):
         return self.value
+    def should_retransmit(self):
+        o1 = 0
+        o0 = 0
+        for i in self.value:
+            if i is '1':
+                o1 +=  1
+            else:
+                o0 +=  1 
+        if o1 > o0:
+            return True
+        else:
+            return False

@@ -16,8 +16,8 @@ def stop_and_wait(terminal, packet ):
             time.sleep(3)
     
 #Testowa komunikacja
-terminal1 = Terminal("Terminal1", TerminalOptions.stop_and_wait, EncodingOptions.CRC, 0, 1024, True)
-terminal2 = Terminal("Terminal2", TerminalOptions.stop_and_wait, EncodingOptions.CRC, 0, 1024, False)
+terminal1 = Terminal("Terminal1", TerminalOptions.stop_and_wait, EncodingOptions.parity_bit, 0, 65536, True)
+terminal2 = Terminal("Terminal2", TerminalOptions.stop_and_wait, EncodingOptions.parity_bit, 0, 65536, False)
 
 #Komentarz do próbnego commita
 terminal1.bind(terminal2)
