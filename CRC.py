@@ -53,3 +53,11 @@ class CRC:
         remainder = CRC.mod2division(appended_data, CRC.static_divisor )
 
         return remainder
+
+    @staticmethod
+    def check_CRC(binary):
+        result = CRC.decode_data(binary)
+        for i in range(len(result)):
+            if result[i] == '1':
+                return False
+        return True
