@@ -67,21 +67,21 @@ class Hamming:
 
 
 ####   TEST PROGRAMU  ##############
-hamming = Hamming()
-data = '1011001'
-print("Dane:    " + data)
+# hamming = Hamming()
+# data = '1011001'
+# print("Dane:    " + data)
 
-data_length = len(data)
-num_of_r_bits = Hamming.numOfRedundantBits(data_length)
+# data_length = len(data)
+# num_of_r_bits = Hamming.numOfRedundantBits(data_length)
 
-arr = Hamming.posRedundantBits(data, num_of_r_bits)
-arr = Hamming.calcParityBits(arr, num_of_r_bits)
+# arr = Hamming.posRedundantBits(data, num_of_r_bits)
+# arr = Hamming.calcParityBits(arr, num_of_r_bits)
 
-print("Dane zakodowane: " + arr)  
+# print("Dane zakodowane: " + arr)  
 
-# Symulacja błędu na 10 pozycji
-arr = '11101001110'
-print("Błedne dane:     "+ arr)
-correction = Hamming.detectError(arr, num_of_r_bits)
-print("Pozycja błędu:   " + str(correction))
+# # Symulacja błędu na 10 pozycji
+# arr = '11101001110'
+# print("Błedne dane:     "+ arr)
+# correction = Hamming.detectError(arr, num_of_r_bits)
+# print("Pozycja błędu:   " + str(correction))
 ##################################################

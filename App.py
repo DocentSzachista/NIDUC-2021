@@ -1,26 +1,21 @@
 #Punkt wejścia do programu
-from Terminals       import Terminal
-from Container1      import Container1
-from TerminalOptions import TerminalOptions
-from EncodingOptions import EncodingOptions
-from NoiseOptions    import NoiseOptions
+from Terminals import Terminal
+from CommunicationSettings import ARQType, CheckSum, CommunicationSettings, NoiseType
 
-import time
+#Initialize the test settings
+CommunicationSettings.setup_communication(ARQType.Stop_and_wait, CheckSum.Parit_bit, NoiseType.Simple,  1024, 8, 0.001)
 
-# definicja ARQ stop_and wait w przesylaniu (naiwna implementacja bo dzialamy w obrebie aplikacji)
-def stop_and_wait(terminal, packet ):
-    while(True):
-        if terminal.send_message(packet, False) is True:
-            return
-        else:
-            time.sleep(3)
-    
-#Testowa komunikacja
-terminal1 = Terminal("Terminal1", TerminalOptions.stop_and_wait, EncodingOptions.parity_bit, 0, 65536, True)
-terminal2 = Terminal("Terminal2", TerminalOptions.stop_and_wait, EncodingOptions.parity_bit, 0, 65536, False)
+#Create two terminals
+terminal1 = Terminal("Sender", True)
+terminal2 = Terminal("Reciever", False)
 
-#Komentarz do próbnego commita
+#Bind them to eachother
 terminal1.bind(terminal2)
 terminal2.bind(terminal1)
-terminal1.send_message("bee.png")
-#reader.create_file(byte_list, "bee2.png")
+
+#Start their threads
+terminal1.start_terminal()
+terminal2.start_terminal()
+
+#Send the file form terminal1 to terminal2
+terminal1.send_file("bee.png")

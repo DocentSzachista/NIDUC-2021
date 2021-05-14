@@ -1,7 +1,4 @@
 from Packet1         import Packet1
-from TerminalOptions import TerminalOptions
-from EncodingOptions import EncodingOptions
-from NoiseOptions    import NoiseOptions
 class Container1:
      def __init__(self):
          """Lista przechowująca obiekty - pakiety"""
