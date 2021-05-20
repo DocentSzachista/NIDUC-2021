@@ -1,21 +1,36 @@
 #Punkt wejścia do programu
-from Terminals import Terminal
-from CommunicationSettings import ARQType, CheckSum, CommunicationSettings, NoiseType
+from Statistics import Statistics
+from SenderSAW import SenderSAW
+from RecieverSAW import RecieverSAW
+from CommunicationSettings import CheckSum, CommunicationSettings, NoiseType
+
+def stop_and_wait_test(file_name: str, second_file_name: str) -> None:
+    stats = Statistics()
+
+    #Create sender and reciever
+    sender = SenderSAW("Sender", stats)
+    reciever = RecieverSAW("Reciever", stats)
+
+    reciever.set_recreated_image_name(second_file_name)
+
+    #Bind them
+    sender.bind(reciever)
+    reciever.bind(sender)
+
+    #Start them
+    sender.start()
+    reciever.start()
+
+    #Start transmition
+    sender.send_image(file_name)
+
 
 #Initialize the test settings
-CommunicationSettings.setup_communication(ARQType.Stop_and_wait, CheckSum.Parit_bit, NoiseType.Simple,  1024, 8, 0.001)
+CommunicationSettings.check_sum = CheckSum.CRC
+CommunicationSettings.noise = NoiseType.Simple
+CommunicationSettings.data_bytes = 1024
+CommunicationSettings.key_bits = 16
+CommunicationSettings.switch_probability = 0.0001
+CommunicationSettings.logging = True  # Enable debug logging
 
-#Create two terminals
-terminal1 = Terminal("Sender", True)
-terminal2 = Terminal("Reciever", False)
-
-#Bind them to eachother
-terminal1.bind(terminal2)
-terminal2.bind(terminal1)
-
-#Start their threads
-terminal1.start_terminal()
-terminal2.start_terminal()
-
-#Send the file form terminal1 to terminal2
-terminal1.send_file("bee.png")
+stop_and_wait_test("bee.png", "bee2.png")

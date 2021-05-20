@@ -1,4 +1,8 @@
 import textwrap
+from typing import List
+
+from DataPacket import DataPacket
+from CommunicationSettings import CommunicationSettings
 
 # refactor file wrtiting
 class FileReader:
@@ -36,4 +40,4 @@ class FileReader:
 
             #Convertion of the numeric values to a bytearray
             ba = bytearray(values)
-            file.write(ba) 
+            file.write(ba)

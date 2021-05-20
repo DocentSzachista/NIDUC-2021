@@ -6,6 +6,9 @@ from CommunicationSettings import ARQType, CommunicationSettings
 from threading import Thread
 import time
 
+#####################
+#  DEPRECATED!!!!!  # 
+#####################
 #TODO:
 #- Switch to a more sophisticated container solution
 #- Complete Stop and wait with noise
@@ -122,7 +125,7 @@ class Terminal:
     
     #Method that creates packages from the file and adds them to the package queue
     def create_packages(self, file_name: str) -> None:
-        byte_list = FileReader.read_file(file_name, CommunicationSettings.data_size)
+        byte_list = FileReader.read_file(file_name, CommunicationSettings.data_bytes)
         for index, data in enumerate(byte_list): #Convert words to packages
             self.package_queue.append(DataPacket(index, data))
         
