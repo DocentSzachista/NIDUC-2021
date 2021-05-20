@@ -1,21 +1,20 @@
 class Hamming:
-    # Ile bitów kontrolnych trzeba dodać
+    # Determinate how many redundant bits is needed
     @staticmethod
     def numOfRedundantBits(data_length):
         # 2^i >= data_lenght + i + 1
-        # 2^i - bity kontrolne dodajemy na pozycje będące potegą 2
-        # data_lenght + i + 1 - dodajemy 1 bo pozycje kolejnych bitów się przesuwają po dodaniu bitu kontrolnego
-
+        # 2^i - position of redundant bits
+        # data_lenght + i + 1 - when we append redundant bits, data bits are moving one position forward
         for i in range(data_length):
             if(2**i >= data_length + i + 1):
                 return i
 
 
-    # Wyznaczenie pozycji bitów kontrolnych
+    # Determinate position of redundant bits
     @staticmethod
     def posRedundantBits(data, num_of_r_bits):
-        j = 0   # potega
-        k = 1   # pozycja bitu danych
+        j = 0   # power
+        k = 1   # position of data bit
         data_length = len(data)
         result = ''
 
@@ -24,20 +23,18 @@ class Hamming:
                 result = result + '0'
                 j += 1
             else:
-                result = result + data[-1 * k]  # zapis od tyłu
+                result = result + data[-1 * k]  # appended backwards
                 k += 1
 
-        # W tablicy result dane są od tyłu, więc trzeba je odwrócić
+        # In array result data is appended backwards, so it needs to be reversed
         return result[::-1]
 
 
-    # Wyznaczenie bitów parzystości
+    # Calculating parity bits
     @staticmethod
     def calcParityBits(array, num_of_r_bits):
         array_length = len(array)
 
-        # For finding rth parity bit, iterate over
-        # 0 to r - 1
         for i in range(num_of_r_bits):
             val = 0
 
@@ -52,24 +49,27 @@ class Hamming:
     @staticmethod
     def detectError(array, num_of_r_bits):
         array_length = len(array)
-        result = 0
+        error_pos = 0
 
-        # Obliczanie bitów parzystości
+        # Find parity bits
         for i in range(num_of_r_bits):
             val = 0
             for j in range(1, array_length + 1):
-                if(j & (2**i) == (2**i)):
-                    val = val ^ int(array[-1 * j])
+                if(j & (2**i) == (2**i)):   #AND
+                    val = val ^ int(array[-1 * j])    #XOR
+            
+            error_pos = error_pos + val * (10**i)
 
-            result = result + val*(10**i)
+        if(error_pos == 0):
+            return False
+        else:
+            return True
 
-        return int(str(result), 2)
 
-
-####   TEST PROGRAMU  ##############
+####  TEST  ##############
 # hamming = Hamming()
-# data = '1011001'
-# print("Dane:    " + data)
+# data = '101101'
+# print("Data:        " + data)
 
 # data_length = len(data)
 # num_of_r_bits = Hamming.numOfRedundantBits(data_length)
@@ -77,11 +77,10 @@ class Hamming:
 # arr = Hamming.posRedundantBits(data, num_of_r_bits)
 # arr = Hamming.calcParityBits(arr, num_of_r_bits)
 
-# print("Dane zakodowane: " + arr)  
+# print("Coded data:  " + arr)  
 
-# # Symulacja błędu na 10 pozycji
-# arr = '11101001110'
-# print("Błedne dane:     "+ arr)
-# correction = Hamming.detectError(arr, num_of_r_bits)
-# print("Pozycja błędu:   " + str(correction))
+# # Simulation of error data
+# arr = '10111'
+# print("Error data:  "+ arr)
+# print("Error:       " + str(Hamming.detectError(arr, num_of_r_bits)))
 ##################################################
