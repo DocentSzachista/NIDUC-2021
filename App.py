@@ -30,7 +30,7 @@ CommunicationSettings.check_sum = CheckSum.CRC
 CommunicationSettings.noise = NoiseType.Simple
 CommunicationSettings.data_bytes = 1024
 CommunicationSettings.key_bits = 16
-CommunicationSettings.switch_probability = 0.0001
+CommunicationSettings.switch_probability = 0.00001
 CommunicationSettings.logging = True  # Enable debug logging
 
 stop_and_wait_test("bee.png", "bee2.png")

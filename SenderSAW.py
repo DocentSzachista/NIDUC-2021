@@ -31,6 +31,7 @@ class SenderSAW:
         end_packet = DataPacket()
         end_packet.mark_as_eot()
         self.packages_to_send.append(end_packet)
+        self.stats.min_packages = 2 * len(self.packages_to_send) - 1 
         if CommunicationSettings.logging:
             print(f"Created {len(self.packages_to_send)} packages")
 
@@ -68,21 +69,27 @@ class SenderSAW:
         packet : ResponsePacket = self.recieved_packets.pop(0)
 
         #Scramble the packet
-        #message = packet.to_binary()
-        #message = CommunicationSettings.scramble_message(message)
-        #packet.to_packet(message)
+        message = packet.to_binary()
+        message = CommunicationSettings.scramble_message(message)
+        response_packet = ResponsePacket()
+        response_packet.to_packet(message)
 
-        if packet.get_valid():
-            if packet.should_retransmit() == False: #If no retransmition is needed then remove the current first packet from the queue
+        if response_packet.get_valid():
+            if response_packet.should_retransmit() == False: #If no retransmition is needed then remove the current first packet from the queue
                 self.packages_to_send.pop(0)
-            else:
-                self.stats.retransmissions += 1
 
             if len(self.packages_to_send) == 0:
                 self.simulate = False  # Every packet was send succesfuly
                 return
 
+            #If the content isn't the same then the error wasn't detected
+            if message != response_packet.to_binary():
+                self.stats.undetected_errors += 1
+
             self.reciever.recieve_packet(self.packages_to_send[0])
         else:
-            pass #TODO: Ask for retransmition if response is corrupted
+            self.stats.detected_errors += 1
+            response = ResponsePacket()
+            response.mark_as_retransmit()
+            self.reciever.recieve_packet(response)
         

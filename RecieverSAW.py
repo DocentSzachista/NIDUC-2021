@@ -17,6 +17,7 @@ class RecieverSAW:
         self.sender = None
         self.image_name = "res.png"
         self.stats = stats
+        self.last_response = ""
 
     #Name of the image after recreation
     def set_recreated_image_name(self, name: str) -> None:
@@ -41,6 +42,8 @@ class RecieverSAW:
         if CommunicationSettings.logging:
             print(f"{self.name}: Image {self.image_name} created")
 
+        self.stats.undetected_errors -= 1 #Starting packet is marked as retransmition
+        self.stats.ammount_of_packets -= 1 #Remove the starting packet it's not exchanged
         print(self.stats.get_statistics())
 
     #Adds the packet to the recieved packet list
@@ -63,28 +66,31 @@ class RecieverSAW:
         if isinstance(packet, DataPacket):
             #Scrable packet
             message = packet.to_binary()
-            packet.to_packet(CommunicationSettings.scramble_message(message))
+            data_packet = DataPacket()
+            data_packet.to_packet(CommunicationSettings.scramble_message(message))
 
             response = ResponsePacket() #Create the response
-            if packet.get_valid():
+            if data_packet.get_valid():
                 if CommunicationSettings.logging:
                     print(f"{self.name}: Valid packet")
-                if packet.is_eot():
+                if data_packet.is_eot():
                     self.simulate = False
                     self.recreate_image()
                 else:
-                    self.good_packets.append(packet.get_data()) #Add good data
+                    self.good_packets.append(data_packet.get_data()) #Add good data
                 response.mark_as_not_retransmit() #Say that there is no need for retransmition
 
-                if message == packet.to_binary():
-                    self.stats.detected_errors += 1
-                else:
+                #If the content isn't the same then the error wasn't detected
+                if message != data_packet.to_binary():
                     self.stats.undetected_errors += 1
             else:
+                self.stats.detected_errors += 1
                 response.mark_as_retransmit()
                 if CommunicationSettings.logging:
                     print(f"{self.name}: Invalid packet")
 
+            self.last_response = response.get_data()
             self.sender.recieve_packet(response)
-        else:
-            pass #TODO: Is response packet, act accordingly
+        else: #Is a response packet. That means that we should transmit our last response again
+            response = ResponsePacket(data=self.last_response)
+            self.sender.recieve_packet(response)
