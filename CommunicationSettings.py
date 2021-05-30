@@ -36,9 +36,7 @@ class CommunicationSettings:
         elif CommunicationSettings.check_sum is CheckSum.CRC:
             encodedMessage = CRC.encode_data(message)
         elif CommunicationSettings.check_sum is CheckSum.Hamming_code:
-            num_of_r_bits = Hamming.numOfRedundantBits(len(message))
-            arr = Hamming.posRedundantBits(message, num_of_r_bits)
-            encodedMessage = Hamming.calcParityBits(arr, num_of_r_bits)
+            encodedMessage = Hamming.encode_data(message)
         return encodedMessage
     
     #Checks if the provided message is valid using the selected check sum
@@ -49,8 +47,7 @@ class CommunicationSettings:
         elif CommunicationSettings.check_sum is CheckSum.CRC:
             return  CRC.check_CRC(message)
         elif CommunicationSettings.check_sum is CheckSum.Hamming_code:
-            print("Hamming code detection not implemented")
-            return False
+            return Hamming.detectError(message)
 
     #Header method that scrambles the message using the selected algorithm
     @staticmethod

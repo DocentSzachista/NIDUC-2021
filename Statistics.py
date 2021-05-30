@@ -10,5 +10,5 @@ class Statistics:
         stats = f"Minimum amount of packages: {self.min_packages}\n"
         stats += f"Packets exchanged: {self.ammount_of_packets}\n"
         stats += f"Detected errors: {self.detected_errors}\n"
-        stats += f"Unetected errors: {self.undetected_errors}\n"
+        stats += f"Undetected errors: {self.undetected_errors}\n"
         return stats

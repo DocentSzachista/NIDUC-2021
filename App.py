@@ -26,9 +26,9 @@ def stop_and_wait_test(file_name: str, second_file_name: str) -> None:
 
 
 #Initialize the test settings
-CommunicationSettings.check_sum = CheckSum.CRC
+CommunicationSettings.check_sum = CheckSum.Hamming_code
 CommunicationSettings.noise = NoiseType.Simple
-CommunicationSettings.data_bytes = 1024
+CommunicationSettings.data_bytes = 4096
 CommunicationSettings.key_bits = 16
 CommunicationSettings.switch_probability = 0.00001
 CommunicationSettings.logging = True  # Enable debug logging
