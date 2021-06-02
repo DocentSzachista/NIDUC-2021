@@ -25,6 +25,7 @@ class CommunicationSettings:
     data_bytes = 1024
     key_bits = 8
     switch_probability = 0
+    window_size = 5
     logging = True
 
     #Method that will encode the send data using the selected method
