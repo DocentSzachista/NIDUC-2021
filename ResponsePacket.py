@@ -1,4 +1,5 @@
-from CommunicationSettings import CommunicationSettings
+from Hamming import Hamming
+from CommunicationSettings import CommunicationSettings, CheckSum
 
 #Class that is used to respond to the sender with the information about the packets validity
 class ResponsePacket:
@@ -17,7 +18,10 @@ class ResponsePacket:
         return CommunicationSettings.encode_message(binary)
 
     def to_packet(self, message: str) -> None:
-        #TODO: Change this convertion to include the ability to decode hamming code
+        original_message = message
+        if CommunicationSettings.check_sum == CheckSum.Hamming_code:
+            message = Hamming.extractKey(message)
+
         self.key = int(message[0:CommunicationSettings.key_bits], 2)
         self.data = message[CommunicationSettings.key_bits: CommunicationSettings.key_bits + 1] 
         self.is_valid = CommunicationSettings.is_message_valid(message)

@@ -1,4 +1,5 @@
-from CommunicationSettings import CommunicationSettings
+from Hamming import Hamming
+from CommunicationSettings import CheckSum, CommunicationSettings
 
 #Packet that is only used for sending data
 class DataPacket:
@@ -19,12 +20,20 @@ class DataPacket:
 
     def to_packet(self, message: str) -> None:
         #TODO: Change this convertion to include the ability to decode hamming code
+        original_message = message
+        if CommunicationSettings.check_sum == CheckSum.Hamming_code:
+            message = Hamming.extractKey(message)
+        
         key_str = message[0:CommunicationSettings.key_bits]
-        self.key = int(key_str, 2)
         self.data = message[CommunicationSettings.key_bits: CommunicationSettings.data_bytes * 8 + CommunicationSettings.key_bits]
-        self.valid = CommunicationSettings.is_message_valid(message)
+
+        self.key = int(key_str, 2)
+
+        self.valid = CommunicationSettings.is_message_valid(original_message)
         if key_str == "".rjust(CommunicationSettings.key_bits, "1"):
             self.eot = True
+        else:
+            self.eot = False
 
     #Returns true if the packet contains valid data
     def get_valid(self) -> bool:

@@ -12,3 +12,9 @@ class Statistics:
         stats += f"Detected errors: {self.detected_errors}\n"
         stats += f"Undetected errors: {self.undetected_errors}\n"
         return stats
+
+    def add_statistics(self, stats_to_add) -> None:
+        self.min_packages += stats_to_add.min_packages
+        self.ammount_of_packets += stats_to_add.ammount_of_packets
+        self.detected_errors += stats_to_add.detected_errors
+        self.undetected_errors += stats_to_add.undetected_errors

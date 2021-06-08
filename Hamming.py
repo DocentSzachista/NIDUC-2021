@@ -25,7 +25,7 @@ class Hamming:
             else:
                 data += message[message_len-i]
 
-        return key[::-1], data[::-1]
+        return data[::-1]
 
 
     # Determinate position of redundant bits
@@ -108,9 +108,8 @@ class Hamming:
         
         return array
 
-# hamming = Hamming()
-# message = '1010101'
-# key = ""
+# message = '111111111111111100000'
+# encoded = Hamming.encode_data(message)
 # data = ""
-# key, data = hamming.extractKey(message)
-# print("message: " + message + "\nkey: " + key + "\ndata: " + data)
+# data = Hamming.extractKey(encoded)
+# print("Original: " + message + "\nEncoded: " + encoded + "\nDecoded: " + data)

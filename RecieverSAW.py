@@ -1,6 +1,6 @@
 from Statistics import Statistics
 from FileReading import FileReader
-from CommunicationSettings import CommunicationSettings
+from CommunicationSettings import CommunicationSettings, CheckSum
 from DataPacket import DataPacket
 from ResponsePacket import ResponsePacket
 
@@ -42,7 +42,8 @@ class RecieverSAW:
         if CommunicationSettings.logging:
             print(f"{self.name}: Image {self.image_name} created")
 
-        self.stats.undetected_errors -= 1 #Starting packet is marked as retransmition
+        if CommunicationSettings.check_sum != CheckSum.Hamming_code:
+            self.stats.undetected_errors -= 1 #Starting packet is marked as retransmition
         self.stats.ammount_of_packets -= 1 #Remove the starting packet it's not exchanged
         print(self.stats.get_statistics())
 

@@ -1,6 +1,6 @@
 from Statistics import Statistics
 from FileReading import FileReader
-from CommunicationSettings import CommunicationSettings
+from CommunicationSettings import CheckSum, CommunicationSettings
 from DataPacket import DataPacket
 from ResponsePacket import ResponsePacket
 
@@ -44,7 +44,8 @@ class RecieverGBN:
         if CommunicationSettings.logging:
             print(f"{self.name}: Image {self.image_name} created")
 
-        self.stats.undetected_errors -= 1  # Starting packet is marked as retransmition
+        if CommunicationSettings.check_sum != CheckSum.Hamming_code:
+            self.stats.undetected_errors -= 1  # Starting packet is marked as retransmition
         # Remove the starting packet it's not exchanged
         self.stats.ammount_of_packets -= 1
         print(self.stats.get_statistics())
@@ -77,7 +78,6 @@ class RecieverGBN:
                 #If this is the end of transmition and all packets in the window are valid then recreate the image
                 if data_packet.is_eot() and self.all_packets_valid:
                     is_eot = True
-                    send_response = True
 
                 #If the content isn't the same then the error wasn't detected
                 if message != data_packet.to_binary():
