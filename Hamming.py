@@ -10,6 +10,24 @@ class Hamming:
                 return i
 
 
+    # Returns extraxted key and data from encoded message
+    @staticmethod
+    def extractKey(message):
+        message_len = len(message)
+        key = ''
+        data = ''
+        j = 0
+
+        for i in range(1,message_len+1):
+            if(i == 2**j):
+                key = key + message[message_len-i]
+                j += 1
+            else:
+                data += message[message_len-i]
+
+        return key[::-1], data[::-1]
+
+
     # Determinate position of redundant bits
     @staticmethod
     def posRedundantBits(data, num_of_r_bits):
@@ -90,6 +108,9 @@ class Hamming:
         
         return array
 
-#hamming = Hamming()
-#print(hamming.encode_data('1011001'))
-#print(hamming.detectError('11101001110'))
+# hamming = Hamming()
+# message = '1010101'
+# key = ""
+# data = ""
+# key, data = hamming.extractKey(message)
+# print("message: " + message + "\nkey: " + key + "\ndata: " + data)
