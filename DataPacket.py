@@ -52,6 +52,7 @@ class DataPacket:
         #All 1 means end of transmition
         self.key = int("".rjust(CommunicationSettings.key_bits, "1"), 2)
         self.data = "".rjust(CommunicationSettings.data_bytes * 8, "1")
+        self.eot = True
 
     #Checks if the packet signals the end of transmition
     def is_eot(self) -> bool:

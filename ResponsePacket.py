@@ -58,3 +58,11 @@ class ResponsePacket:
     #Checks if the packet calls for retransmition
     def should_retransmit(self) -> bool:
         return self.retransmit
+
+    #Checks if the key has its max value
+    def is_max_key(self) -> bool:
+        return self.key == int("".rjust(CommunicationSettings.key_bits, "1"), 2)
+
+    #Set the key value as the max posible value
+    def set_max_key(self) -> None:
+        self.key = int("".rjust(CommunicationSettings.key_bits, "1"), 2)

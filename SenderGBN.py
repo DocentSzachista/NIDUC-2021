@@ -16,6 +16,7 @@ class SenderGBN:
         self.simulate = False
         self.reciever = None
         self.stats = stats
+        self.start_packet = False
 
     #Bind the sender and the reciever
     def bind(self, reciever) -> None:
@@ -70,7 +71,9 @@ class SenderGBN:
 
         #Scramble the packet
         message = packet.to_binary()
-        message = CommunicationSettings.scramble_message(message)
+        if self.start_packet:
+            message = CommunicationSettings.scramble_message(message)
+            self.start_packet = True
         response_packet = ResponsePacket()
         response_packet.to_packet(message)
 
