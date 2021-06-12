@@ -27,6 +27,7 @@ class CommunicationSettings:
     switch_probability = 0
     window_size = 5
     logging = True
+    simulation_finished = False
 
     #Method that will encode the send data using the selected method
     @staticmethod
@@ -57,3 +58,13 @@ class CommunicationSettings:
             return Noise.simple_noise(message, CommunicationSettings.switch_probability)
         elif CommunicationSettings.noise is NoiseType.Efficient:
             return Noise.efficient_noise(message, CommunicationSettings.switch_probability)
+
+    #Resets the flag that is set when the simulation is finished
+    @staticmethod
+    def reset_sumulation_state() -> None:
+        CommunicationSettings.simulation_finished = False
+
+    #Checks if the the simulation has finished
+    @staticmethod
+    def get_simulation_state() -> bool:
+        return CommunicationSettings.simulation_finished

@@ -46,9 +46,8 @@ class RecieverGBN:
 
         if CommunicationSettings.check_sum != CheckSum.Hamming_code:
             self.stats.undetected_errors -= 1  # Starting packet is marked as retransmition
-        # Remove the starting packet it's not exchanged
-        self.stats.ammount_of_packets -= 1
-        print(self.stats.get_statistics())
+        self.stats.ammount_of_packets -= 2
+        CommunicationSettings.simulation_finished = True
 
     #Adds the packet to the recieved packet list
     def recieve_packet(self, packet) -> None:

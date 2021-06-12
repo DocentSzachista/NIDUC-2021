@@ -8,75 +8,123 @@ from SenderSR import SenderSR
 from RecieverSR import RecieverSR
 from CommunicationSettings import CheckSum, CommunicationSettings, NoiseType
 
-def stop_and_wait_test(file_name: str, second_file_name: str) -> None:
-    stats = Statistics()
+#Halts the main thread until the simulation is finished
+def wait_for_simulation_end() -> None:
+    while(CommunicationSettings.get_simulation_state() == False):
+        continue
 
-    #Create sender and reciever
-    sender = SenderSAW("Sender", stats)
-    reciever = RecieverSAW("Reciever", stats)
+def stop_and_wait_test(file_name: str, repetitions: int) -> None:
+    for i in range(repetitions):
+        #Print proggress
+        print(f"Run {i + 1}/{repetitions}")
+        stats = Statistics()
 
-    reciever.set_recreated_image_name(second_file_name)
+        #Setup test specific statistics
+        CommunicationSettings.check_sum = CheckSum.CRC
 
-    #Bind them
-    sender.bind(reciever)
-    reciever.bind(sender)
+        #Create sender and reciever
+        sender = SenderSAW("Sender", stats)
+        reciever = RecieverSAW("Reciever", stats)
 
-    #Start them
-    sender.start()
-    reciever.start()
+        #Setup resoult image name
+        reciever.set_recreated_image_name(f"Img/res_saw{i + 1}.png")
 
-    #Start transmition
-    sender.send_image(file_name)
+        #Bind them
+        sender.bind(reciever)
+        reciever.bind(sender)
 
-def go_back_n_test(file_name: str, second_file_name: str) -> None:
-    stats = Statistics()
+        #Start them
+        sender.start()
+        reciever.start()
 
-    #Create sender and reciever
-    sender = SenderGBN("Sender", stats)
-    reciever = RecieverGBN("Reciever", stats)
+        #Start transmition
+        sender.send_image(file_name)
 
-    reciever.set_recreated_image_name(second_file_name)
+        wait_for_simulation_end()
+        print(stats.get_statistics())
+        CommunicationSettings.reset_sumulation_state()
 
-    #Bind them
-    sender.bind(reciever)
-    reciever.bind(sender)
+def go_back_n_test(file_name: str, repetitions: int) -> None:
+    for i in range(repetitions):
+        #Print proggress
+        print(f"Run {i + 1}/{repetitions}")
+        stats = Statistics()
 
-    #Start them
-    sender.start()
-    reciever.start()
+        #Setup test specific statistics
+        CommunicationSettings.check_sum = CheckSum.CRC
+        CommunicationSettings.window_size = 4
 
-    #Start transmition
-    sender.send_image(file_name)
+        #Create sender and reciever
+        sender = SenderSAW("Sender", stats)
+        reciever = RecieverSAW("Reciever", stats)
 
-def selective_repeat_test(file_name: str, second_file_name: str) -> None:
-    stats = Statistics()
+        #Setup resoult image name
+        reciever.set_recreated_image_name(f"Img/res_gbn{i + 1}.png")
 
-    #Create sender and reciever
-    sender = SenderSR("Sender", stats)
-    reciever = RecieverSR("Reciever", stats)
+        #Bind them
+        sender.bind(reciever)
+        reciever.bind(sender)
 
-    reciever.set_recreated_image_name(second_file_name)
+        #Start them
+        sender.start()
+        reciever.start()
 
-    #Bind them
-    sender.bind(reciever)
-    reciever.bind(sender)
+        #Start transmition
+        sender.send_image(file_name)
 
-    #Start them
-    sender.start()
-    reciever.start()
+        wait_for_simulation_end()
+        print(stats.get_statistics())
+        CommunicationSettings.reset_sumulation_state()
 
-    #Start transmition
-    sender.send_image(file_name)
+def selective_repeat_test(file_name: str, repetitions: int) -> None:
+    for i in range(repetitions):
+        #Print proggress
+        print(f"Run {i + 1}/{repetitions}")
+        stats = Statistics()
 
-#Initialize the test settings
-CommunicationSettings.check_sum = CheckSum.CRC
+        #Setup test specific statistics
+        CommunicationSettings.check_sum = CheckSum.CRC
+        CommunicationSettings.window_size = 4
+
+        #Create sender and reciever
+        sender = SenderSAW("Sender", stats)
+        reciever = RecieverSAW("Reciever", stats)
+
+        #Setup resoult image name
+        reciever.set_recreated_image_name(f"Img/res_sr{i + 1}.png")
+
+        #Bind them
+        sender.bind(reciever)
+        reciever.bind(sender)
+
+        #Start them
+        sender.start()
+        reciever.start()
+
+        #Start transmition
+        sender.send_image(file_name)
+
+        wait_for_simulation_end()
+        print(stats.get_statistics())
+        CommunicationSettings.reset_sumulation_state()
+
+#Global settings (the same for all tests)
 CommunicationSettings.noise = NoiseType.Simple
 CommunicationSettings.data_bytes = 128 #W bajtach 128 * 8 = 1024 bity 
 CommunicationSettings.key_bits = 16
-CommunicationSettings.switch_probability = 0.00001
-CommunicationSettings.window_size = 5
-CommunicationSettings.logging = True  # Enable debug logging
+CommunicationSettings.switch_probability = 0.0001
+CommunicationSettings.logging = False  # Logging will clutter the console, so keep it disabled
 
-#stop_and_wait_test("bee.png", "bee2.png")
-#go_back_n_test("bee.png", "bee2.png")
-selective_repeat_test("bee.png", "bee2.png")
+#------------
+#INSTRUCTIONS
+#------------
+#There are some specific settings in the methods (CheckSum and window size)
+#To run the test, uncomment the type you want to test and run the application. Resoults will be printed on the console
+#Genereated images will be in the "Img" folder
+
+#The string is the name of the image to send
+#The number is the amount of tests
+
+#stop_and_wait_test("bee.png", 20)
+#go_back_n_test("bee.png", 20)
+#selective_repeat_test("bee.png", 20)
