@@ -55,8 +55,8 @@ def go_back_n_test(file_name: str, repetitions: int) -> None:
         CommunicationSettings.window_size = 4
 
         #Create sender and reciever
-        sender = SenderSAW("Sender", stats)
-        reciever = RecieverSAW("Reciever", stats)
+        sender = SenderGBN("Sender", stats)
+        reciever = RecieverGBN("Reciever", stats)
 
         #Setup resoult image name
         reciever.set_recreated_image_name(f"Img/res_gbn{i + 1}.png")
@@ -87,8 +87,8 @@ def selective_repeat_test(file_name: str, repetitions: int) -> None:
         CommunicationSettings.window_size = 4
 
         #Create sender and reciever
-        sender = SenderSAW("Sender", stats)
-        reciever = RecieverSAW("Reciever", stats)
+        sender = SenderSR("Sender", stats)
+        reciever = RecieverSR("Reciever", stats)
 
         #Setup resoult image name
         reciever.set_recreated_image_name(f"Img/res_sr{i + 1}.png")
@@ -110,7 +110,7 @@ def selective_repeat_test(file_name: str, repetitions: int) -> None:
 
 #Global settings (the same for all tests)
 CommunicationSettings.noise = NoiseType.Simple
-CommunicationSettings.data_bytes = 128 #W bajtach 128 * 8 = 1024 bity 
+CommunicationSettings.data_bytes = 64 #W bajtach 128 * 8 = 1024 bity 
 CommunicationSettings.key_bits = 16
 CommunicationSettings.switch_probability = 0.0001
 CommunicationSettings.logging = False  # Logging will clutter the console, so keep it disabled
@@ -125,6 +125,6 @@ CommunicationSettings.logging = False  # Logging will clutter the console, so ke
 #The string is the name of the image to send
 #The number is the amount of tests
 
-#stop_and_wait_test("bee.png", 20)
-#go_back_n_test("bee.png", 20)
-#selective_repeat_test("bee.png", 20)
+#stop_and_wait_test("bee.png", 10)
+#go_back_n_test("bee.png", 10)
+#selective_repeat_test("bee.png", 10)

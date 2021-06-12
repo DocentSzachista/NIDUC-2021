@@ -1,6 +1,6 @@
 class CRC:
     
-    static_divisor = '10111010'
+    static_divisor = '1011101000010111'
     # Metoda pełniąca rolę logicznego XOR
     @staticmethod
     def xor(arg1, arg2):
